@@ -1,0 +1,238 @@
+/* Desktop & Tablet Independent Layout Styling */
+
+/* Tablet (>= 640px) */
+@media (min-width: 640px) {
+  .screen-container {
+    max-width: 640px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .hero-media-wrapper {
+    height: 180px;
+  }
+}
+
+/* Desktop & Laptop (>= 1024px) */
+@media (min-width: 1024px) {
+  .main-content {
+    padding-bottom: 40px;
+  }
+
+  /* Desktop Header transforms into professional e-commerce navbar */
+  .desktop-header-wrapper {
+    display: block;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid var(--border-light);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .desktop-nav-container {
+    max-width: var(--desktop-max-width);
+    margin: 0 auto;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .desktop-brand-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .desktop-brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--color-primary);
+  }
+
+  .desktop-brand-logo img {
+    height: 32px;
+    width: auto;
+  }
+
+  .desktop-search-bar {
+    flex: 1;
+    max-width: 560px;
+  }
+
+  .desktop-actions-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .desktop-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .desktop-nav-btn:hover {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+
+  /* Screen container expands elegantly to standard full desktop width */
+  .screen-container {
+    max-width: var(--desktop-max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Hide mobile header and bottom navigation on desktop */
+  .app-header.mobile-only {
+    display: none;
+  }
+
+  .bottom-nav {
+    display: none;
+  }
+
+  /* Categories Bar */
+  .categories-section {
+    background-color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-light);
+    margin-top: 16px;
+    padding: 14px 20px;
+  }
+
+  .categories-track {
+    justify-content: space-around;
+    padding: 0;
+  }
+
+  .category-item {
+    gap: 8px;
+  }
+
+  .category-icon-box {
+    width: 64px;
+    height: 64px;
+  }
+
+  .category-name {
+    font-size: 12.5px;
+  }
+
+  /* Promo strip */
+  .promo-strip {
+    border-radius: var(--radius-md);
+    margin: 16px 0;
+    padding: 10px 20px;
+    font-size: 13.5px;
+  }
+
+  /* Hero Banner */
+  .hero-card {
+    margin: 16px 0;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    height: 260px;
+  }
+
+  .hero-media-wrapper {
+    height: 100%;
+  }
+
+  .hero-content {
+    padding: 28px 32px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .hero-title {
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+  }
+
+  .hero-explore-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+  /* Product Sections & Grid on Desktop */
+  .product-section {
+    padding: 24px 0 8px 0;
+  }
+
+  .section-title {
+    font-size: 20px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .product-details {
+    padding: 12px 14px 14px 14px;
+  }
+
+  .product-name {
+    font-size: 13.5px;
+    min-height: 38px;
+  }
+
+  .price-current {
+    font-size: 17px;
+  }
+
+  .desktop-footer {
+    display: block;
+    background-color: #FFFFFF;
+    border-top: 1px solid var(--border-light);
+    margin-top: 48px;
+    padding: 32px 24px;
+  }
+
+  .desktop-footer-inner {
+    max-width: var(--desktop-max-width);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+}
+
+/* Fallback for desktop elements on mobile */
+@media (max-width: 1023px) {
+  .desktop-header-wrapper {
+    display: none;
+  }
+  .desktop-footer {
+    display: none;
+  }
+}

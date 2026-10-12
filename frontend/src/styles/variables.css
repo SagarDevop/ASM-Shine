@@ -1,0 +1,48 @@
+:root {
+  /* Brand & Stitch Exact Colors */
+  --color-primary: #00878A;
+  --color-primary-dark: #0E5B5E;
+  --color-primary-light: #E6F4F5;
+  --color-accent-cyan: #52D1DC;
+  --color-accent-cyan-light: #E0F7FA;
+  
+  --color-eco-dark: #006064;
+  --color-hot-bg: #FEF3C7;
+  --color-hot-text: #D97706;
+  --color-discount: #059669;
+  --color-star: #D97706;
+
+  /* Surfaces & Backgrounds */
+  --bg-page: #F8F9FA;
+  --bg-card: #FFFFFF;
+  --bg-muted: #F1F5F9;
+  --bg-category: #F0F4F6;
+  
+  /* Text */
+  --text-primary: #0F172A;
+  --text-secondary: #64748B;
+  --text-muted: #94A3B8;
+  --text-white: #FFFFFF;
+
+  /* Borders & Dividers */
+  --border-light: #E2E8F0;
+  --border-subtle: #EEF2F6;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-bottom-nav: 0 -2px 10px rgba(0, 0, 0, 0.05);
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 9999px;
+
+  /* Spacing & Sizing */
+  --mobile-max-width: 480px;
+  --desktop-max-width: 1240px;
+  --bottom-nav-height: 58px;
+}
