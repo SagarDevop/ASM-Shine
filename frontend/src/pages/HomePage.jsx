@@ -124,17 +124,6 @@ export const HomePage = () => {
           />
         </main>
 
-        {/* Mobile Bottom Navigation Bar */}
-        <BottomNav
-          activeTab={activeTab}
-          onTabChange={(tab) => {
-            setActiveTab(tab);
-            if (tab === 'account') showToast('Account profile section');
-            if (tab === 'cart') showToast('Shopping cart view');
-            if (tab === 'categories') showToast('All categories view');
-          }}
-        />
-
         {/* Desktop Footer (Visible on screen width >= 1024px) */}
         <footer className="desktop-footer">
           <div className="desktop-footer-inner">
@@ -143,6 +132,17 @@ export const HomePage = () => {
           </div>
         </footer>
       </div>
+
+      {/* Mobile Bottom Navigation Bar (Fixed to viewport bottom) */}
+      <BottomNav
+        activeTab={activeTab}
+        onTabChange={(tab) => {
+          setActiveTab(tab);
+          if (tab === 'account') showToast('Account profile section');
+          if (tab === 'cart') showToast('Shopping cart view');
+          if (tab === 'categories') showToast('All categories view');
+        }}
+      />
 
       {/* About ASM Shine Brand Modal */}
       <AboutModal
