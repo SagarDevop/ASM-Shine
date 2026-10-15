@@ -443,22 +443,27 @@ export const ProductDetailPage = ({
         {combo && (
           <section className="pdp-section pdp-combo-section" aria-label="Frequently Bought Together">
             <div className="pdp-combo-header">
-              <div>
+              <div className="pdp-combo-header-text">
                 <h2 className="pdp-section-heading">Frequently Bought Together</h2>
                 <p className="pdp-section-subtext">Save extra ₹{combo.totalSavings} when purchased as a combo</p>
               </div>
-              <span className="pdp-combo-badge">Combo Deal</span>
+              <span className="pdp-combo-badge">
+                <Zap size={11} fill="currentColor" />
+                <span>Combo Deal</span>
+              </span>
             </div>
 
             {/* Visual 2-Item Combo Representation */}
             <div className="pdp-combo-cards-row">
               {/* Product 1: Current Product */}
               <div className="pdp-combo-item-card">
-                <img
-                  src={combo.mainProduct.image}
-                  alt={combo.mainProduct.name}
-                  className="pdp-combo-thumb"
-                />
+                <div className="pdp-combo-thumb-box">
+                  <img
+                    src={combo.mainProduct.image}
+                    alt={combo.mainProduct.name}
+                    className="pdp-combo-thumb"
+                  />
+                </div>
                 <div className="pdp-combo-item-details">
                   <span className="pdp-combo-tag-pill">This Item</span>
                   <div className="pdp-combo-item-name" title={combo.mainProduct.name}>
@@ -470,7 +475,7 @@ export const ProductDetailPage = ({
 
               {/* Plus Divider */}
               <div className="pdp-combo-plus-divider">
-                <Plus size={20} strokeWidth={2.8} />
+                <Plus size={18} strokeWidth={2.8} />
               </div>
 
               {/* Product 2: Complementary Companion Product */}
@@ -479,13 +484,15 @@ export const ProductDetailPage = ({
                 onClick={() => onSelectProduct && onSelectProduct(combo.companionProduct)}
                 title="View product details"
               >
-                <img
-                  src={combo.companionProduct.image}
-                  alt={combo.companionProduct.name}
-                  className="pdp-combo-thumb"
-                />
+                <div className="pdp-combo-thumb-box">
+                  <img
+                    src={combo.companionProduct.image}
+                    alt={combo.companionProduct.name}
+                    className="pdp-combo-thumb"
+                  />
+                </div>
                 <div className="pdp-combo-item-details">
-                  <span className="pdp-combo-tag-pill companion">Recommended Add-on</span>
+                  <span className="pdp-combo-tag-pill companion">Add-on Item</span>
                   <div className="pdp-combo-item-name" title={combo.companionProduct.name}>
                     {combo.companionProduct.shortName || combo.companionProduct.name}
                   </div>
