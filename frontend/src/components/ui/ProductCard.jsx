@@ -1,9 +1,21 @@
 import React from 'react';
 import { Star } from 'lucide-react';
 
-export const ProductCard = ({ product, showRating = true, sizePosition = 'below' }) => {
+export const ProductCard = ({ product, showRating = true, sizePosition = 'below', onSelectProduct }) => {
   return (
-    <article className="product-card" id={`product-${product.id}`}>
+    <article
+      className="product-card clickable"
+      id={`product-${product.id}`}
+      onClick={() => onSelectProduct && onSelectProduct(product)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          if (onSelectProduct) onSelectProduct(product);
+        }
+      }}
+    >
       {/* Product Image Area with overlays */}
       <div className="product-media-container">
         <img

@@ -11,7 +11,8 @@ export const ProductSection = ({
   products = [],
   showRating = true,
   sizePosition = 'below',
-  onActionClick
+  onActionClick,
+  onSelectProduct
 }) => {
   if (!products || products.length === 0) return null;
 
@@ -45,6 +46,7 @@ export const ProductSection = ({
             product={product}
             showRating={showRating}
             sizePosition={sizePosition}
+            onSelectProduct={onSelectProduct}
           />
         ))}
       </div>

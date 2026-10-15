@@ -1155,3 +1155,1234 @@ a {
 .about-done-btn:hover {
   opacity: 0.92;
 }
+
+/* =======================================================
+   PRODUCT CARD INTERACTION
+   ======================================================= */
+.product-card.clickable {
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  user-select: none;
+}
+
+.product-card.clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.product-card.clickable:active {
+  transform: scale(0.98);
+}
+
+/* =======================================================
+   FLIPKART-EXACT PRODUCT DETAIL PAGE (PDP)
+   ======================================================= */
+.pdp-page {
+  min-height: 100vh;
+  background-color: #F1F3F6;
+  padding-bottom: 64px; /* Space for fixed bottom bar */
+  position: relative;
+  z-index: 60;
+}
+
+/* 1. PDP Top Header */
+.pdp-top-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  background-color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  z-index: 100;
+  border-bottom: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.pdp-nav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0F172A;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.pdp-nav-btn:hover {
+  background-color: #F1F5F9;
+}
+
+.pdp-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.pdp-logo-mini {
+  height: 24px;
+  width: auto;
+  object-fit: contain;
+}
+
+.pdp-brand-text {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: -0.2px;
+}
+
+.pdp-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pdp-cart-icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.pdp-cart-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #EF4444;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 800;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(239, 68, 68, 0.4);
+}
+
+/* 2. PDP Main Content Container */
+.pdp-content-container {
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.pdp-section {
+  background-color: #FFFFFF;
+  margin-bottom: 8px;
+  padding: 14px 16px;
+  border-top: 1px solid #F1F5F9;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+/* 3. Hero Media Card */
+.pdp-media-card {
+  background-color: #FFFFFF;
+  padding: 16px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.pdp-image-viewport {
+  position: relative;
+  width: 100%;
+  height: 310px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFFFFF;
+}
+
+.pdp-main-image {
+  max-height: 280px;
+  max-width: 100%;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.pdp-wishlist-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.pdp-wishlist-btn:hover {
+  transform: scale(1.08);
+}
+
+.pdp-assured-tag {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  background-color: #F0F9FF;
+  border: 1px solid #BAE6FD;
+  color: #0369A1;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pdp-img-dots {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pdp-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #CBD5E1;
+  transition: all 0.2s ease;
+}
+
+.pdp-dot.active {
+  width: 16px;
+  border-radius: 4px;
+  background-color: #2563EB;
+}
+
+/* 4. Product Info Section */
+.pdp-info-card {
+  padding-top: 12px;
+}
+
+.pdp-brand-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0284C7;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.pdp-product-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0F172A;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.pdp-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.pdp-rating-pill {
+  background-color: #388E3C;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.pdp-review-summary-text {
+  font-size: 12.5px;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.pdp-price-block {
+  border-top: 1px dashed #E2E8F0;
+  padding-top: 10px;
+}
+
+.pdp-special-tag {
+  font-size: 12px;
+  font-weight: 700;
+  color: #388E3C;
+  margin-bottom: 2px;
+}
+
+.pdp-price-numbers-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.pdp-price-current {
+  font-size: 25px;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.pdp-price-original {
+  font-size: 14.5px;
+  color: #878787;
+  text-decoration: line-through;
+}
+
+.pdp-price-discount {
+  font-size: 15px;
+  font-weight: 700;
+  color: #388E3C;
+}
+
+.pdp-taxes-note {
+  font-size: 11.5px;
+  color: #64748B;
+  margin-top: 3px;
+}
+
+/* 5. Offers Card */
+.pdp-section-subheading {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0F172A;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pdp-offer-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background-color: #F8FAFC;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: #334155;
+  border: 1px solid #F1F5F9;
+}
+
+.pdp-offer-item.highlight {
+  background-color: #ECFDF5;
+  border-color: #A7F3D0;
+  color: #065F46;
+}
+
+.pdp-offer-bullet {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.pdp-offer-text {
+  flex: 1;
+  line-height: 1.35;
+}
+
+.pdp-coupon-code-pill {
+  font-family: monospace;
+  font-weight: 800;
+  background-color: #FFFFFF;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px dashed #059669;
+  color: #059669;
+  margin-left: 4px;
+}
+
+.pdp-copy-coupon-btn {
+  background-color: #059669;
+  color: #FFFFFF;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* 6. Variants Section */
+.pdp-sizes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.pdp-size-chip {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1.5px solid #E2E8F0;
+  background-color: #FFFFFF;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pdp-size-chip.active {
+  border-color: #2563EB;
+  background-color: #EFF6FF;
+}
+
+.pdp-size-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.pdp-size-check {
+  color: #2563EB;
+}
+
+.pdp-size-price {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #1E293B;
+  margin-top: 2px;
+}
+
+.pdp-size-discount {
+  font-size: 11px;
+  font-weight: 600;
+  color: #388E3C;
+}
+
+/* 7. Delivery Card */
+.pdp-delivery-location-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #F1F5F9;
+  font-size: 12.5px;
+}
+
+.pdp-delivery-loc-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #334155;
+}
+
+.pdp-loc-pin {
+  color: #0F172A;
+  flex-shrink: 0;
+}
+
+.pdp-change-loc-btn {
+  color: #2563EB;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pdp-delivery-speed-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #1E293B;
+  padding: 10px 0;
+}
+
+.pdp-assurances-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.pdp-assurance-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* =======================================================
+   8. ⭐ FREQUENTLY BOUGHT TOGETHER (FLIPKART EXACT COMBO)
+   ======================================================= */
+.pdp-combo-section {
+  background: linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%);
+  border: 1.5px solid #BAE6FD;
+  border-radius: 12px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 16px 14px;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.06);
+}
+
+.pdp-combo-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.pdp-section-heading {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: -0.2px;
+}
+
+.pdp-section-heading.sub {
+  font-size: 14px;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.pdp-section-subtext {
+  font-size: 12px;
+  color: #64748B;
+  margin-top: 2px;
+}
+
+.pdp-combo-badge {
+  background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  letter-spacing: 0.3px;
+  box-shadow: 0 1px 3px rgba(2, 132, 199, 0.3);
+}
+
+.pdp-combo-cards-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.pdp-combo-item-card {
+  flex: 1;
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.pdp-combo-item-card.clickable {
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.pdp-combo-item-card.clickable:hover {
+  transform: translateY(-2px);
+  border-color: #38BDF8;
+}
+
+.pdp-combo-thumb {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  margin-bottom: 6px;
+}
+
+.pdp-combo-tag-pill {
+  font-size: 9.5px;
+  font-weight: 700;
+  background-color: #F1F5F9;
+  color: #475569;
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  display: inline-block;
+}
+
+.pdp-combo-tag-pill.companion {
+  background-color: #E0F2FE;
+  color: #0369A1;
+}
+
+.pdp-combo-item-name {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #1E293B;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 30px;
+  margin-bottom: 4px;
+}
+
+.pdp-combo-item-price {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.pdp-combo-plus-divider {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  border: 1.5px solid #94A3B8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #475569;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.pdp-combo-action-box {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.pdp-combo-calc {
+  display: flex;
+  flex-direction: column;
+}
+
+.pdp-combo-total-label {
+  font-size: 11.5px;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.pdp-combo-price-group {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.pdp-combo-final-price {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.pdp-combo-mrp {
+  font-size: 12px;
+  color: #94A3B8;
+  text-decoration: line-through;
+}
+
+.pdp-combo-save-pill {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #059669;
+  background-color: #ECFDF5;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.pdp-combo-buy-btn {
+  background-color: #00878A;
+  color: #FFFFFF;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.pdp-combo-buy-btn:hover {
+  opacity: 0.94;
+  transform: translateY(-1px);
+}
+
+.pdp-combo-buy-btn:active {
+  transform: scale(0.97);
+}
+
+/* =======================================================
+   9. ⭐ SIMILAR PRODUCTS CAROUSEL (FLIPKART EXACT)
+   ======================================================= */
+.pdp-similar-section {
+  padding-bottom: 16px;
+}
+
+.pdp-similar-header {
+  margin-bottom: 12px;
+}
+
+.pdp-similar-track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pdp-similar-card {
+  width: 140px;
+  flex-shrink: 0;
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pdp-similar-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.pdp-sim-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F8FAFC;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+.pdp-sim-img {
+  max-height: 85px;
+  max-width: 90%;
+  object-fit: contain;
+}
+
+.pdp-sim-size {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background-color: rgba(255, 255, 255, 0.9);
+  font-size: 9px;
+  font-weight: 700;
+  color: #475569;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.pdp-sim-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background-color: #388E3C;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-bottom: 4px;
+}
+
+.pdp-sim-title {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #0F172A;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 30px;
+  margin-bottom: 4px;
+}
+
+.pdp-sim-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.pdp-sim-price {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.pdp-sim-mrp {
+  font-size: 10.5px;
+  color: #94A3B8;
+  text-decoration: line-through;
+}
+
+.pdp-sim-discount {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #388E3C;
+}
+
+/* 10. Highlights & Specifications */
+.pdp-highlights-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 16px 0;
+}
+
+.pdp-highlights-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #334155;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.pdp-hl-check {
+  color: #059669;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pdp-specs-table {
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.pdp-spec-row {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  padding: 8px 12px;
+  font-size: 12px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.pdp-spec-row:last-child {
+  border-bottom: none;
+}
+
+.pdp-spec-row:nth-child(even) {
+  background-color: #F8FAFC;
+}
+
+.pdp-spec-label {
+  color: #64748B;
+  font-weight: 500;
+}
+
+.pdp-spec-value {
+  color: #0F172A;
+  font-weight: 600;
+}
+
+/* 11. Customer Reviews Card */
+.pdp-rating-summary-box {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #F1F5F9;
+  margin-bottom: 12px;
+}
+
+.pdp-rating-big-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+}
+
+.pdp-score-num {
+  font-size: 32px;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.pdp-score-sub {
+  font-size: 10.5px;
+  color: #64748B;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.pdp-rating-bars {
+  flex: 1;
+}
+
+.pdp-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #64748B;
+  margin-bottom: 3px;
+}
+
+.pdp-bar-label {
+  width: 24px;
+  font-weight: 600;
+}
+
+.pdp-bar-track {
+  flex: 1;
+  height: 6px;
+  background-color: #E2E8F0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.pdp-bar-fill {
+  height: 100%;
+  background-color: #388E3C;
+  border-radius: 3px;
+}
+
+.pdp-bar-pct {
+  width: 28px;
+  text-align: right;
+  font-size: 10px;
+}
+
+.pdp-reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pdp-review-card {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.pdp-review-card:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.pdp-rev-rating-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.pdp-rev-badge {
+  background-color: #388E3C;
+  color: #FFFFFF;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.pdp-rev-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.pdp-rev-comment {
+  font-size: 12px;
+  color: #334155;
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.pdp-rev-author-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #94A3B8;
+  flex-wrap: wrap;
+}
+
+.pdp-rev-author {
+  color: #64748B;
+  font-weight: 600;
+}
+
+.pdp-rev-verified {
+  color: #059669;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-weight: 500;
+}
+
+/* =======================================================
+   12. ⭐ FLIPKART EXACT BOTTOM STICKY ACTION BAR
+   ======================================================= */
+.pdp-bottom-sticky-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 54px;
+  background-color: #FFFFFF;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  z-index: 100;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.12);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.pdp-btn-cart {
+  background-color: #FFC200;
+  color: #111827;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s ease;
+}
+
+.pdp-btn-cart:active {
+  opacity: 0.9;
+}
+
+.pdp-btn-buy {
+  background-color: #FB641B;
+  color: #FFFFFF;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s ease;
+}
+
+.pdp-btn-buy:active {
+  opacity: 0.9;
+}
+
+@media (min-width: 1024px) {
+  .pdp-content-container {
+    max-width: 800px;
+    padding: 20px 0;
+  }
+
+  .pdp-media-card,
+  .pdp-section {
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+  }
+
+  .pdp-bottom-sticky-bar {
+    max-width: 800px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 12px 12px 0 0;
+  }
+}
+
+/* =======================================================
+   MARKETPLACE REDIRECTION STRIP (DESIGN 1)
+   ======================================================= */
+.pdp-marketplaces-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 14px 14px 16px 14px;
+  margin-bottom: 8px;
+}
+
+.pdp-marketplaces-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #E2E8F0;
+}
+
+.pdp-marketplaces-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pdp-mp-badge {
+  font-size: 10px;
+  font-weight: 800;
+  color: #0369A1;
+  background-color: #E0F2FE;
+  padding: 2px 7px;
+  border-radius: 4px;
+  width: fit-content;
+  letter-spacing: 0.5px;
+}
+
+.pdp-marketplaces-heading {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+.pdp-mp-verified-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #059669;
+  background-color: #ECFDF5;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.pdp-marketplaces-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.pdp-marketplace-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 6px 8px 6px;
+  border-radius: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  position: relative;
+  background-color: #FFFFFF;
+}
+
+.pdp-marketplace-btn:active {
+  transform: scale(0.96);
+}
+
+.pdp-marketplace-btn.amazon {
+  border: 1.5px solid #FCD34D;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FEF9E7 100%);
+}
+
+.pdp-marketplace-btn.amazon:hover {
+  border-color: #F59E0B;
+  box-shadow: 0 3px 8px rgba(245, 158, 11, 0.18);
+  transform: translateY(-2px);
+}
+
+.pdp-marketplace-btn.flipkart {
+  border: 1.5px solid #93C5FD;
+  background: linear-gradient(180deg, #FFFFFF 0%, #EFF6FF 100%);
+}
+
+.pdp-marketplace-btn.flipkart:hover {
+  border-color: #2563EB;
+  box-shadow: 0 3px 8px rgba(37, 99, 235, 0.18);
+  transform: translateY(-2px);
+}
+
+.pdp-marketplace-btn.meesho {
+  border: 1.5px solid #FBCFE8;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FDF2F8 100%);
+}
+
+.pdp-marketplace-btn.meesho:hover {
+  border-color: #EC4899;
+  box-shadow: 0 3px 8px rgba(236, 72, 153, 0.18);
+  transform: translateY(-2px);
+}
+
+.pdp-mp-icon-box {
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pdp-mp-content {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.pdp-mp-pre {
+  font-size: 10px;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.pdp-mp-name {
+  font-size: 12.5px;
+  font-weight: 800;
+}
+
+.pdp-marketplace-btn.amazon .pdp-mp-name {
+  color: #111827;
+}
+
+.pdp-marketplace-btn.flipkart .pdp-mp-name {
+  color: #1D4ED8;
+}
+
+.pdp-marketplace-btn.meesho .pdp-mp-name {
+  color: #9D174D;
+}
+
+.pdp-mp-ext-icon {
+  margin-top: 4px;
+  color: #94A3B8;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.pdp-marketplace-btn:hover .pdp-mp-ext-icon {
+  color: #0F172A;
+  transform: translate(1px, -1px);
+}
+

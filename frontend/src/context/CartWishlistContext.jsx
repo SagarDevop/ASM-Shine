@@ -47,6 +47,17 @@ export const CartWishlistProvider = ({ children }) => {
     }
   };
 
+  const addComboToCart = async (items = [], customToast = 'Combo bundle added to cart! 🎉') => {
+    const totalQty = items.reduce((acc, curr) => acc + (curr.quantity || 1), 0);
+    setCartCount((prev) => prev + totalQty);
+    showToast(customToast);
+    try {
+      await api.addComboToCart(items);
+    } catch (e) {
+      // ignore
+    }
+  };
+
   return (
     <CartWishlistContext.Provider
       value={{
@@ -54,6 +65,7 @@ export const CartWishlistProvider = ({ children }) => {
         wishlist,
         toggleWishlist,
         addToCart,
+        addComboToCart,
         toastMessage,
         showToast
       }}
