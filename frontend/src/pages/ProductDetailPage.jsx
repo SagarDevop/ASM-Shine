@@ -78,7 +78,8 @@ const MeeshoLogo = () => (
 export const ProductDetailPage = ({
   product,
   onBack,
-  onSelectProduct
+  onSelectProduct,
+  onOpenCart
 }) => {
   const { cartCount, wishlist, toggleWishlist, addToCart, addComboToCart, showToast } = useCartWishlist();
   const [selectedVariant, setSelectedVariant] = useState(
@@ -192,7 +193,10 @@ export const ProductDetailPage = ({
           >
             <Share2 size={20} />
           </button>
-          <div className="pdp-cart-icon-wrap" onClick={() => showToast('Shopping cart view')}>
+          <div
+            className="pdp-cart-icon-wrap"
+            onClick={() => (onOpenCart ? onOpenCart() : (window.location.hash = '#cart'))}
+          >
             <button type="button" className="pdp-nav-btn" aria-label="Cart">
               <ShoppingBag size={21} />
             </button>

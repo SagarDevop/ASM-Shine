@@ -6,8 +6,10 @@ import { CategoryScroller } from '../components/ui/CategoryScroller';
 import { OfferStrip } from '../components/ui/OfferStrip';
 import { HeroBanner } from '../components/ui/HeroBanner';
 import { ProductSection } from '../components/ui/ProductSection';
-import { AboutModal } from '../components/ui/AboutModal';
 import { ProductDetailPage } from './ProductDetailPage';
+import { CategoriesPage } from './CategoriesPage';
+import { AboutPage } from './AboutPage';
+import { CartPage } from './CartPage';
 import { useCartWishlist } from '../context/CartWishlistContext';
 import { api } from '../services/api';
 
@@ -44,27 +46,52 @@ export const HomePage = () => {
     fetchData();
   }, []);
 
-  // Sync with browser back/forward buttons and direct URL hash (e.g. #product/prod_1)
+  // Sync hash routing with browser back/forward buttons
   useEffect(() => {
-    if (allProducts.length > 0 && window.location.hash.startsWith('#product/')) {
-      const pid = window.location.hash.replace('#product/', '');
-      const found = allProducts.find((p) => p.id === pid);
-      if (found) setSelectedProduct(found);
-    }
-
-    const handlePopState = () => {
-      if (window.location.hash.startsWith('#product/')) {
-        const pid = window.location.hash.replace('#product/', '');
+    const syncHashToView = () => {
+      const hash = window.location.hash;
+      if (hash.startsWith('#product/')) {
+        const pid = hash.replace('#product/', '');
         const found = allProducts.find((p) => p.id === pid);
-        if (found) setSelectedProduct(found);
+        if (found) {
+          setSelectedProduct(found);
+          return;
+        }
+      }
+      setSelectedProduct(null);
+
+      if (hash === '#categories') {
+        setActiveTab('categories');
+      } else if (hash === '#about') {
+        setActiveTab('about');
+      } else if (hash === '#cart') {
+        setActiveTab('cart');
       } else {
-        setSelectedProduct(null);
+        setActiveTab('home');
       }
     };
 
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    if (allProducts.length > 0) {
+      syncHashToView();
+    }
+
+    window.addEventListener('popstate', syncHashToView);
+    return () => window.removeEventListener('popstate', syncHashToView);
   }, [allProducts]);
+
+  const handleSwitchTab = (tab, pushHistory = true) => {
+    setActiveTab(tab);
+    setSelectedProduct(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (pushHistory) {
+      if (tab === 'home') {
+        window.history.pushState({ tab: 'home' }, '', window.location.pathname);
+      } else {
+        window.history.pushState({ tab }, '', `#${tab}`);
+      }
+    }
+  };
 
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);
@@ -76,6 +103,8 @@ export const HomePage = () => {
     setSelectedProduct(null);
     if (window.location.hash.startsWith('#product')) {
       window.history.back();
+    } else {
+      handleSwitchTab('home', false);
     }
   };
 
@@ -103,102 +132,188 @@ export const HomePage = () => {
     showToast('Viewing Citrus & Neem Active Range 🍊');
   };
 
-  return (
-    <div className="app-shell">
-      {/* If a product is selected, render Flipkart exact Product Detail Page */}
-      {selectedProduct ? (
+  // 1. PRODUCT DETAIL PAGE (Flipkart Exact)
+  if (selectedProduct) {
+    return (
+      <div className="app-shell">
         <ProductDetailPage
           product={selectedProduct}
           onBack={handleBackFromProduct}
           onSelectProduct={handleSelectProduct}
+          onOpenCart={() => handleSwitchTab('cart')}
         />
-      ) : (
-        <>
-          {/* Desktop Navigation (Visible on screen width >= 1024px) */}
-          <DesktopNav onSearch={setSearchQuery} />
-
-          {/* Screen Container (Strict 390px mobile proportion, scales on desktop) */}
-          <div className="screen-container">
-            {/* Mobile Header (Visible on screen width < 1024px) */}
-            <Header
-              onSearch={setSearchQuery}
-              categories={categories}
-              selectedCategory={selectedCategory}
-              onSelectCategory={setSelectedCategory}
-            />
-
-            <main className="main-content">
-              {/* Promotional Offer Strip */}
-              <OfferStrip offer={banners?.announcement} onCopyCode={handleCopyOffer} />
-
-              {/* Hero Feature Banner */}
-              <HeroBanner banner={banners?.hero} onExplore={handleExploreHero} />
-
-              {/* Section 1: Best Sellers (HOT) */}
-              <ProductSection
-                title="Best Sellers"
-                badge="HOT"
-                actionText="View All"
-                actionLinkStyle="chevron"
-                products={bestSellers}
-                showRating={true}
-                sizePosition="below"
-                onActionClick={() => showToast('Browsing all Best Sellers')}
-                onSelectProduct={handleSelectProduct}
-              />
-
-              {/* Section 2: Everyday Cleaning Essentials */}
-              <ProductSection
-                title="Everyday Cleaning Essentials"
-                actionText="EXPLORE"
-                actionLinkStyle="plain-text"
-                products={everydayEssentials}
-                showRating={false}
-                sizePosition="overlay"
-                onActionClick={() => showToast('Browsing Cleaning Essentials')}
-                onSelectProduct={handleSelectProduct}
-              />
-
-              {/* Section 3: Recommended for You */}
-              <ProductSection
-                title="Recommended for You"
-                subtitle="Based on household cleaning trends"
-                actionText="SEE MORE"
-                actionLinkStyle="plain-text"
-                products={recommended}
-                showRating={false}
-                sizePosition="overlay"
-                onActionClick={() => showToast('Browsing recommendations')}
-                onSelectProduct={handleSelectProduct}
-              />
-            </main>
-
-            {/* Desktop Footer (Visible on screen width >= 1024px) */}
-            <footer className="desktop-footer">
-              <div className="desktop-footer-inner">
-                <span>© 2026 ASM Shine E-Commerce Inc. All rights reserved.</span>
-                <span>Premium Botanical Home Hygiene</span>
-              </div>
-            </footer>
+        {toastMessage && (
+          <div className="toast-notice" role="alert">
+            <span>{toastMessage}</span>
           </div>
+        )}
+      </div>
+    );
+  }
 
-          {/* Mobile Bottom Navigation Bar (Visible only on main browsing view) */}
-          <BottomNav
-            activeTab={activeTab}
-            onTabChange={(tab) => {
-              setActiveTab(tab);
-              if (tab === 'account') showToast('Account profile section');
-              if (tab === 'cart') showToast('Shopping cart view');
-              if (tab === 'categories') showToast('All categories view');
-            }}
+  // 2. CATEGORIES DEDICATED FULL PAGE
+  if (activeTab === 'categories') {
+    return (
+      <div className="app-shell">
+        <DesktopNav
+          onSearch={setSearchQuery}
+          onSwitchTab={handleSwitchTab}
+        />
+        <div className="screen-container">
+          <CategoriesPage
+            onBack={() => handleSwitchTab('home')}
+            onSelectProduct={handleSelectProduct}
           />
-        </>
-      )}
+        </div>
+        <BottomNav
+          activeTab="categories"
+          onTabChange={handleSwitchTab}
+        />
+        {toastMessage && (
+          <div className="toast-notice" role="alert">
+            <span>{toastMessage}</span>
+          </div>
+        )}
+      </div>
+    );
+  }
 
-      {/* About ASM Shine Brand Modal */}
-      <AboutModal
-        isOpen={activeTab === 'about'}
-        onClose={() => setActiveTab('home')}
+  // 3. ABOUT DEDICATED FULL PAGE (Fresh new page, not a bottom modal)
+  if (activeTab === 'about') {
+    return (
+      <div className="app-shell">
+        <DesktopNav
+          onSearch={setSearchQuery}
+          onSwitchTab={handleSwitchTab}
+        />
+        <div className="screen-container">
+          <AboutPage
+            onBack={() => handleSwitchTab('home')}
+            onExploreCatalog={() => handleSwitchTab('home')}
+          />
+        </div>
+        <BottomNav
+          activeTab="about"
+          onTabChange={handleSwitchTab}
+        />
+        {toastMessage && (
+          <div className="toast-notice" role="alert">
+            <span>{toastMessage}</span>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // 4. CART DEDICATED FULL PAGE
+  if (activeTab === 'cart') {
+    return (
+      <div className="app-shell">
+        <DesktopNav
+          onSearch={setSearchQuery}
+          onSwitchTab={handleSwitchTab}
+        />
+        <div className="screen-container">
+          <CartPage
+            onBack={() => handleSwitchTab('home')}
+            onSelectProduct={handleSelectProduct}
+            onExploreCatalog={() => handleSwitchTab('home')}
+          />
+        </div>
+        {toastMessage && (
+          <div className="toast-notice" role="alert">
+            <span>{toastMessage}</span>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // 5. DEFAULT HOME PAGE
+  return (
+    <div className="app-shell">
+      {/* Desktop Navigation */}
+      <DesktopNav
+        onSearch={setSearchQuery}
+        onSwitchTab={handleSwitchTab}
+      />
+
+      {/* Screen Container */}
+      <div className="screen-container">
+        {/* Mobile Header */}
+        <Header
+          onSearch={setSearchQuery}
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+          onSwitchTab={handleSwitchTab}
+        />
+
+        <main className="main-content">
+          {/* Promotional Offer Strip */}
+          <OfferStrip offer={banners?.announcement} onCopyCode={handleCopyOffer} />
+
+          {/* Hero Feature Banner */}
+          <HeroBanner banner={banners?.hero} onExplore={handleExploreHero} />
+
+          {/* Section 1: Best Sellers (HOT) */}
+          <ProductSection
+            title="Best Sellers"
+            badge="HOT"
+            actionText="View All"
+            actionLinkStyle="chevron"
+            products={bestSellers}
+            showRating={true}
+            sizePosition="below"
+            onActionClick={() => handleSwitchTab('categories')}
+            onSelectProduct={handleSelectProduct}
+          />
+
+          {/* Section 2: Everyday Cleaning Essentials */}
+          <ProductSection
+            title="Everyday Cleaning Essentials"
+            actionText="EXPLORE"
+            actionLinkStyle="plain-text"
+            products={everydayEssentials}
+            showRating={false}
+            sizePosition="overlay"
+            onActionClick={() => handleSwitchTab('categories')}
+            onSelectProduct={handleSelectProduct}
+          />
+
+          {/* Section 3: Recommended for You */}
+          <ProductSection
+            title="Recommended for You"
+            subtitle="Based on household cleaning trends"
+            actionText="SEE MORE"
+            actionLinkStyle="plain-text"
+            products={recommended}
+            showRating={false}
+            sizePosition="overlay"
+            onActionClick={() => handleSwitchTab('categories')}
+            onSelectProduct={handleSelectProduct}
+          />
+        </main>
+
+        {/* Desktop Footer */}
+        <footer className="desktop-footer">
+          <div className="desktop-footer-inner">
+            <span>© 2026 ASM Shine E-Commerce Inc. All rights reserved.</span>
+            <span>Premium Botanical Home Hygiene</span>
+          </div>
+        </footer>
+      </div>
+
+      {/* Mobile Bottom Navigation Bar */}
+      <BottomNav
+        activeTab={activeTab}
+        onTabChange={(tab) => {
+          if (tab === 'account') {
+            showToast('Account profile: Welcome to ASM Shine Official Store 🌿');
+          } else {
+            handleSwitchTab(tab);
+          }
+        }}
       />
 
       {/* Interactive Toast Notification */}

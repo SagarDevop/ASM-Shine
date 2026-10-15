@@ -68,7 +68,8 @@ export const Header = ({
   onSearch,
   categories = [],
   selectedCategory = null,
-  onSelectCategory = () => {}
+  onSelectCategory = () => {},
+  onSwitchTab
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [location, setLocation] = useState('1, Jhanjhari, Banda, Uttar Pradesh');
@@ -104,7 +105,11 @@ export const Header = ({
         {/* Row 1: 3 Pill Category / Brand Switchers (as shown in Screenshot 1) */}
         <div className="fk-pill-switcher-row">
           {/* Pill 1: Active Brand Pill (Yellow highlight with Logo & ASM Shine) */}
-          <button className="fk-pill-tab active" type="button">
+          <button
+            className="fk-pill-tab active"
+            type="button"
+            onClick={() => onSwitchTab && onSwitchTab('home')}
+          >
             <img
               src="/images/logo.png"
               alt="ASM Shine"

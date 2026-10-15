@@ -455,6 +455,50 @@ export const api = {
     };
   },
 
+  // Get fully populated cart with products and totals
+  getCartFullDetails: async () => {
+    const rawItems = getStoredCart();
+    let totalMRP = 0;
+    let totalPrice = 0;
+    let totalCount = 0;
+
+    const items = rawItems
+      .map((item) => {
+        const product = STATIC_PRODUCTS.find((p) => p.id === item.productId);
+        if (!product) return null;
+        const qty = item.quantity || 1;
+        const originalPrice = product.originalPrice || product.price;
+        const currentPrice = product.price;
+        const itemMRP = originalPrice * qty;
+        const itemTotal = currentPrice * qty;
+        const itemSavings = itemMRP - itemTotal;
+
+        totalMRP += itemMRP;
+        totalPrice += itemTotal;
+        totalCount += qty;
+
+        return {
+          productId: item.productId,
+          quantity: qty,
+          product,
+          itemMRP,
+          itemTotal,
+          itemSavings
+        };
+      })
+      .filter(Boolean);
+
+    const totalDiscount = Math.max(totalMRP - totalPrice, 0);
+
+    return {
+      items,
+      totalCount,
+      totalMRP,
+      totalPrice,
+      totalDiscount
+    };
+  },
+
   // Add single item to cart (Persistent via localStorage)
   addToCart: async (productId, quantity = 1) => {
     const cart = getStoredCart();
@@ -470,6 +514,50 @@ export const api = {
       success: true,
       totalCount: count,
       data: cart
+    };
+  },
+
+  // Update item quantity
+  updateCartQuantity: async (productId, quantity) => {
+    let cart = getStoredCart();
+    if (quantity <= 0) {
+      cart = cart.filter((item) => item.productId !== productId);
+    } else {
+      const existing = cart.find((item) => item.productId === productId);
+      if (existing) {
+        existing.quantity = quantity;
+      } else {
+        cart.push({ productId, quantity });
+      }
+    }
+    saveStoredCart(cart);
+    const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    return {
+      success: true,
+      totalCount: count,
+      data: cart
+    };
+  },
+
+  // Remove single item from cart
+  removeFromCart: async (productId) => {
+    const cart = getStoredCart().filter((item) => item.productId !== productId);
+    saveStoredCart(cart);
+    const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    return {
+      success: true,
+      totalCount: count,
+      data: cart
+    };
+  },
+
+  // Clear entire cart
+  clearCart: async () => {
+    saveStoredCart([]);
+    return {
+      success: true,
+      totalCount: 0,
+      data: []
     };
   },
 
