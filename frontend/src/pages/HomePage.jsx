@@ -1,26 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Header } from '../components/layout/Header';
 import { DesktopNav } from '../components/navigation/DesktopNav';
 import { BottomNav } from '../components/navigation/BottomNav';
-import { CategoryScroller } from '../components/ui/CategoryScroller';
 import { OfferStrip } from '../components/ui/OfferStrip';
 import { HeroBanner } from '../components/ui/HeroBanner';
 import { ProductSection } from '../components/ui/ProductSection';
-import { ProductDetailPage } from './ProductDetailPage';
-import { CategoriesPage } from './CategoriesPage';
-import { AboutPage } from './AboutPage';
-import { CartPage } from './CartPage';
 import { useCartWishlist } from '../context/CartWishlistContext';
 import { api } from '../services/api';
 
 export const HomePage = () => {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [banners, setBanners] = useState(null);
   const [allProducts, setAllProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState('home');
   const [loading, setLoading] = useState(true);
   const { toastMessage, showToast } = useCartWishlist();
 
@@ -46,66 +41,19 @@ export const HomePage = () => {
     fetchData();
   }, []);
 
-  // Sync hash routing with browser back/forward buttons
-  useEffect(() => {
-    const syncHashToView = () => {
-      const hash = window.location.hash;
-      if (hash.startsWith('#product/')) {
-        const pid = hash.replace('#product/', '');
-        const found = allProducts.find((p) => p.id === pid);
-        if (found) {
-          setSelectedProduct(found);
-          return;
-        }
-      }
-      setSelectedProduct(null);
-
-      if (hash === '#categories') {
-        setActiveTab('categories');
-      } else if (hash === '#about') {
-        setActiveTab('about');
-      } else if (hash === '#cart') {
-        setActiveTab('cart');
-      } else {
-        setActiveTab('home');
-      }
-    };
-
-    if (allProducts.length > 0) {
-      syncHashToView();
-    }
-
-    window.addEventListener('popstate', syncHashToView);
-    return () => window.removeEventListener('popstate', syncHashToView);
-  }, [allProducts]);
-
-  const handleSwitchTab = (tab, pushHistory = true) => {
-    setActiveTab(tab);
-    setSelectedProduct(null);
+  const handleSwitchTab = (tab) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    if (pushHistory) {
-      if (tab === 'home') {
-        window.history.pushState({ tab: 'home' }, '', window.location.pathname);
-      } else {
-        window.history.pushState({ tab }, '', `#${tab}`);
-      }
+    if (tab === 'home') navigate('/');
+    else if (tab === 'categories') navigate('/categories');
+    else if (tab === 'about') navigate('/about');
+    else if (tab === 'cart') navigate('/cart');
+    else if (tab === 'account') {
+      showToast('Account profile: Welcome to ASM Shine Official Store 🌿');
     }
   };
 
   const handleSelectProduct = (product) => {
-    setSelectedProduct(product);
-    window.history.pushState({ productId: product.id }, '', `#product/${product.id}`);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleBackFromProduct = () => {
-    setSelectedProduct(null);
-    if (window.location.hash.startsWith('#product')) {
-      window.history.back();
-    } else {
-      handleSwitchTab('home', false);
-    }
+    navigate(`/product/${product.id}`);
   };
 
   // Filter products by selected category or search term
@@ -132,104 +80,6 @@ export const HomePage = () => {
     showToast('Viewing Citrus & Neem Active Range 🍊');
   };
 
-  // 1. PRODUCT DETAIL PAGE (Flipkart Exact)
-  if (selectedProduct) {
-    return (
-      <div className="app-shell">
-        <ProductDetailPage
-          product={selectedProduct}
-          onBack={handleBackFromProduct}
-          onSelectProduct={handleSelectProduct}
-          onOpenCart={() => handleSwitchTab('cart')}
-        />
-        {toastMessage && (
-          <div className="toast-notice" role="alert">
-            <span>{toastMessage}</span>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  // 2. CATEGORIES DEDICATED FULL PAGE
-  if (activeTab === 'categories') {
-    return (
-      <div className="app-shell">
-        <DesktopNav
-          onSearch={setSearchQuery}
-          onSwitchTab={handleSwitchTab}
-        />
-        <div className="screen-container">
-          <CategoriesPage
-            onBack={() => handleSwitchTab('home')}
-            onSelectProduct={handleSelectProduct}
-          />
-        </div>
-        <BottomNav
-          activeTab="categories"
-          onTabChange={handleSwitchTab}
-        />
-        {toastMessage && (
-          <div className="toast-notice" role="alert">
-            <span>{toastMessage}</span>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  // 3. ABOUT DEDICATED FULL PAGE (Fresh new page, not a bottom modal)
-  if (activeTab === 'about') {
-    return (
-      <div className="app-shell">
-        <DesktopNav
-          onSearch={setSearchQuery}
-          onSwitchTab={handleSwitchTab}
-        />
-        <div className="screen-container">
-          <AboutPage
-            onBack={() => handleSwitchTab('home')}
-            onExploreCatalog={() => handleSwitchTab('home')}
-          />
-        </div>
-        <BottomNav
-          activeTab="about"
-          onTabChange={handleSwitchTab}
-        />
-        {toastMessage && (
-          <div className="toast-notice" role="alert">
-            <span>{toastMessage}</span>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  // 4. CART DEDICATED FULL PAGE
-  if (activeTab === 'cart') {
-    return (
-      <div className="app-shell">
-        <DesktopNav
-          onSearch={setSearchQuery}
-          onSwitchTab={handleSwitchTab}
-        />
-        <div className="screen-container">
-          <CartPage
-            onBack={() => handleSwitchTab('home')}
-            onSelectProduct={handleSelectProduct}
-            onExploreCatalog={() => handleSwitchTab('home')}
-          />
-        </div>
-        {toastMessage && (
-          <div className="toast-notice" role="alert">
-            <span>{toastMessage}</span>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  // 5. DEFAULT HOME PAGE
   return (
     <div className="app-shell">
       {/* Desktop Navigation */}
@@ -306,14 +156,8 @@ export const HomePage = () => {
 
       {/* Mobile Bottom Navigation Bar */}
       <BottomNav
-        activeTab={activeTab}
-        onTabChange={(tab) => {
-          if (tab === 'account') {
-            showToast('Account profile: Welcome to ASM Shine Official Store 🌿');
-          } else {
-            handleSwitchTab(tab);
-          }
-        }}
+        activeTab="home"
+        onTabChange={handleSwitchTab}
       />
 
       {/* Interactive Toast Notification */}

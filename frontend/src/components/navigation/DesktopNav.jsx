@@ -1,9 +1,22 @@
 import React from 'react';
 import { Search, ShoppingBag, Heart, User, MapPin, ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useCartWishlist } from '../../context/CartWishlistContext';
 
 export const DesktopNav = ({ onSearch, onSwitchTab }) => {
   const { cartCount, wishlist, showToast } = useCartWishlist();
+  const navigate = useNavigate();
+
+  const handleNav = (tab) => {
+    if (onSwitchTab) {
+      onSwitchTab(tab);
+      return;
+    }
+    if (tab === 'home') navigate('/');
+    else if (tab === 'cart') navigate('/cart');
+    else if (tab === 'about') navigate('/about');
+    else if (tab === 'categories') navigate('/categories');
+  };
 
   return (
     <div className="desktop-header-wrapper">
@@ -12,7 +25,7 @@ export const DesktopNav = ({ onSearch, onSwitchTab }) => {
         <div className="desktop-brand-group">
           <div
             className="desktop-brand-logo"
-            onClick={() => onSwitchTab && onSwitchTab('home')}
+            onClick={() => handleNav('home')}
             style={{ cursor: 'pointer' }}
           >
             <img src="/images/logo.png" alt="ASM Shine Logo" />
@@ -56,7 +69,7 @@ export const DesktopNav = ({ onSearch, onSwitchTab }) => {
           <button
             className="desktop-nav-btn"
             style={{ position: 'relative' }}
-            onClick={() => onSwitchTab && onSwitchTab('cart')}
+            onClick={() => handleNav('cart')}
           >
             <ShoppingBag size={18} color="#00878A" />
             <span>Cart</span>
@@ -69,7 +82,7 @@ export const DesktopNav = ({ onSearch, onSwitchTab }) => {
 
           <button
             className="desktop-nav-btn"
-            onClick={() => onSwitchTab && onSwitchTab('about')}
+            onClick={() => handleNav('about')}
           >
             <span>About Us</span>
           </button>

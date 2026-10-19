@@ -11,6 +11,7 @@ import {
   Waves,
   WashingMachine
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 // Premium Floor Mop icon for Floor Care
 const FloorMopIcon = ({ size = 20, className }) => (
@@ -71,6 +72,7 @@ export const Header = ({
   onSelectCategory = () => {},
   onSwitchTab
 }) => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [location, setLocation] = useState('1, Jhanjhari, Banda, Uttar Pradesh');
   const [isScrolled, setIsScrolled] = useState(false);
@@ -108,7 +110,10 @@ export const Header = ({
           <button
             className="fk-pill-tab active"
             type="button"
-            onClick={() => onSwitchTab && onSwitchTab('home')}
+            onClick={() => {
+              if (onSwitchTab) onSwitchTab('home');
+              else navigate('/');
+            }}
           >
             <img
               src="/images/logo.png"

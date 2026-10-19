@@ -15,6 +15,7 @@ import {
   Waves,
   WashingMachine
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useCartWishlist } from '../context/CartWishlistContext';
 import { api, STATIC_CATEGORIES } from '../services/api';
 
@@ -75,10 +76,25 @@ export const CategoriesPage = ({
   onSelectProduct,
   initialCategory = 'all'
 }) => {
+  const navigate = useNavigate();
   const [selectedCat, setSelectedCat] = useState(initialCategory);
   const [searchQuery, setSearchQuery] = useState('');
   const [products, setProducts] = useState([]);
   const { cartCount, addToCart, showToast } = useCartWishlist();
+
+  const handleBack = () => {
+    if (onBack) onBack();
+    else navigate(-1);
+  };
+
+  const handleOpenCart = () => {
+    navigate('/cart');
+  };
+
+  const handleSelectProduct = (product) => {
+    if (onSelectProduct) onSelectProduct(product);
+    else navigate(`/product/${product.id}`);
+  };
 
   useEffect(() => {
     api.getProducts().then((data) => {
@@ -115,7 +131,7 @@ export const CategoriesPage = ({
         <button
           type="button"
           className="page-back-btn"
-          onClick={onBack}
+          onClick={handleBack}
           aria-label="Back"
         >
           <ArrowLeft size={22} />
@@ -124,7 +140,7 @@ export const CategoriesPage = ({
           <span className="page-header-title">All Categories</span>
           <span className="page-header-subtitle">ASM Shine Catalog</span>
         </div>
-        <div className="pdp-cart-icon-wrap" onClick={() => window.location.hash = '#cart'}>
+        <div className="pdp-cart-icon-wrap" onClick={handleOpenCart}>
           <button type="button" className="page-action-btn" aria-label="Cart">
             <ShoppingBag size={21} />
           </button>
@@ -213,7 +229,7 @@ export const CategoriesPage = ({
                 <div
                   key={product.id}
                   className="cat-product-card"
-                  onClick={() => onSelectProduct && onSelectProduct(product)}
+                  onClick={() => handleSelectProduct(product)}
                 >
                   <div className="cat-prod-img-wrap">
                     <img

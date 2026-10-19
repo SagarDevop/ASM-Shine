@@ -1,18 +1,29 @@
 import React from 'react';
 import { Star } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const ProductCard = ({ product, showRating = true, sizePosition = 'below', onSelectProduct }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    if (onSelectProduct) {
+      onSelectProduct(product);
+    } else {
+      navigate(`/product/${product.id}`);
+    }
+  };
+
   return (
     <article
       className="product-card clickable"
       id={`product-${product.id}`}
-      onClick={() => onSelectProduct && onSelectProduct(product)}
+      onClick={handleCardClick}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          if (onSelectProduct) onSelectProduct(product);
+          handleCardClick();
         }
       }}
     >

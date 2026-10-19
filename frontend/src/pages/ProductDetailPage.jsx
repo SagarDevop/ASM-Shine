@@ -18,6 +18,7 @@ import {
   Leaf,
   ExternalLink
 } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useCartWishlist } from '../context/CartWishlistContext';
 import { api } from '../services/api';
 
@@ -76,24 +77,39 @@ const MeeshoLogo = () => (
 );
 
 export const ProductDetailPage = ({
-  product,
+  product: productProp,
   onBack,
   onSelectProduct,
   onOpenCart
 }) => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [product, setProduct] = useState(productProp || null);
+  const [loading, setLoading] = useState(!productProp);
   const { cartCount, wishlist, toggleWishlist, addToCart, addComboToCart, showToast } = useCartWishlist();
-  const [selectedVariant, setSelectedVariant] = useState(
-    product.availableSizes?.[1] || product.availableSizes?.[0] || null
-  );
+  const [selectedVariant, setSelectedVariant] = useState(null);
   const [combo, setCombo] = useState(null);
   const [similarProducts, setSimilarProducts] = useState([]);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-  const isWishlisted = wishlist.has(product.id);
+  // Sync / fetch product by route parameter :id
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (productProp && (!id || productProp.id === id)) {
+      setProduct(productProp);
+      setLoading(false);
+    } else if (id) {
+      setLoading(true);
+      api.getProductById(id).then((found) => {
+        setProduct(found);
+        setLoading(false);
+      });
+    }
+  }, [id, productProp]);
 
   // Load combo details and similar products whenever product changes
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (!product) return;
     setSelectedVariant(product.availableSizes?.[1] || product.availableSizes?.[0] || null);
 
     const loadExtra = async () => {
@@ -106,7 +122,24 @@ export const ProductDetailPage = ({
     };
 
     loadExtra();
-  }, [product.id]);
+  }, [product?.id]);
+
+  const handleBack = () => {
+    if (onBack) onBack();
+    else navigate(-1);
+  };
+
+  const handleOpenCart = () => {
+    if (onOpenCart) onOpenCart();
+    else navigate('/cart');
+  };
+
+  const handleSelectProduct = (targetProd) => {
+    if (onSelectProduct) onSelectProduct(targetProd);
+    else navigate(`/product/${targetProd.id}`);
+  };
+
+  const isWishlisted = product ? wishlist.has(product.id) : false;
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -150,6 +183,30 @@ export const ProductDetailPage = ({
     );
   };
 
+  if (loading) {
+    return (
+      <div className="pdp-page" style={{ minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <p style={{ color: '#64748B', fontWeight: 600 }}>Loading product details...</p>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="pdp-page" style={{ minHeight: '100dvh', padding: '60px 20px', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '20px', color: '#0F172A', marginBottom: '8px' }}>Product Not Found</h2>
+        <p style={{ color: '#64748B', marginBottom: '20px' }}>The product you are looking for does not exist or has been removed.</p>
+        <button
+          type="button"
+          onClick={() => navigate('/')}
+          style={{ padding: '12px 24px', background: '#00878A', color: '#FFFFFF', border: 'none', borderRadius: '8px', fontWeight: 700, cursor: 'pointer' }}
+        >
+          Return to Store
+        </button>
+      </div>
+    );
+  }
+
   const currentPrice = selectedVariant ? selectedVariant.price : product.price;
   const currentOriginalPrice = selectedVariant ? selectedVariant.originalPrice : product.originalPrice;
   const currentDiscount = selectedVariant ? selectedVariant.discount : `${product.discountPercent}% off`;
@@ -173,13 +230,13 @@ export const ProductDetailPage = ({
         <button
           type="button"
           className="pdp-nav-btn"
-          onClick={onBack}
-          aria-label="Go Back to Home"
+          onClick={handleBack}
+          aria-label="Go Back"
         >
           <ArrowLeft size={22} />
         </button>
 
-        <div className="pdp-header-brand" onClick={onBack}>
+        <div className="pdp-header-brand" onClick={() => navigate('/')}>
           <img src="/images/logo.png" alt="ASM Shine" className="pdp-logo-mini" />
           <span className="pdp-brand-text">ASM Shine</span>
         </div>
@@ -195,7 +252,7 @@ export const ProductDetailPage = ({
           </button>
           <div
             className="pdp-cart-icon-wrap"
-            onClick={() => (onOpenCart ? onOpenCart() : (window.location.hash = '#cart'))}
+            onClick={handleOpenCart}
           >
             <button type="button" className="pdp-nav-btn" aria-label="Cart">
               <ShoppingBag size={21} />
@@ -485,7 +542,7 @@ export const ProductDetailPage = ({
               {/* Product 2: Complementary Companion Product */}
               <div
                 className="pdp-combo-item-card companion clickable"
-                onClick={() => onSelectProduct && onSelectProduct(combo.companionProduct)}
+                onClick={() => handleSelectProduct(combo.companionProduct)}
                 title="View product details"
               >
                 <div className="pdp-combo-thumb-box">
@@ -543,7 +600,7 @@ export const ProductDetailPage = ({
                 <div
                   key={simProd.id}
                   className="pdp-similar-card"
-                  onClick={() => onSelectProduct && onSelectProduct(simProd)}
+                  onClick={() => handleSelectProduct(simProd)}
                 >
                   <div className="pdp-sim-img-wrap">
                     <img src={simProd.image} alt={simProd.name} className="pdp-sim-img" />

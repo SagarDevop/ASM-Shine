@@ -1,9 +1,37 @@
 import React from 'react';
 import { Home, Grid2X2, BadgeCheck, ShoppingBag, User } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCartWishlist } from '../../context/CartWishlistContext';
 
-export const BottomNav = ({ activeTab = 'home', onTabChange }) => {
-  const { cartCount } = useCartWishlist();
+export const BottomNav = ({ activeTab: activeTabProp, onTabChange }) => {
+  const { cartCount, showToast } = useCartWishlist();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Determine current active tab from pathname if not explicitly passed
+  let activeTab = activeTabProp;
+  if (!activeTab) {
+    if (location.pathname === '/categories') activeTab = 'categories';
+    else if (location.pathname === '/about') activeTab = 'about';
+    else if (location.pathname === '/cart') activeTab = 'cart';
+    else if (location.pathname === '/') activeTab = 'home';
+    else activeTab = '';
+  }
+
+  const handleTabClick = (tabId) => {
+    if (onTabChange) {
+      onTabChange(tabId);
+      return;
+    }
+
+    if (tabId === 'home') navigate('/');
+    else if (tabId === 'categories') navigate('/categories');
+    else if (tabId === 'about') navigate('/about');
+    else if (tabId === 'cart') navigate('/cart');
+    else if (tabId === 'account') {
+      showToast('Account profile: Welcome to ASM Shine Official Store 🌿');
+    }
+  };
 
   const tabs = [
     { id: 'home', label: 'Home', icon: Home },
@@ -25,7 +53,7 @@ export const BottomNav = ({ activeTab = 'home', onTabChange }) => {
               id={`nav-tab-${tab.id}`}
               key={tab.id}
               className={`nav-tab-item ${isActive ? 'active' : ''}`}
-              onClick={() => onTabChange && onTabChange(tab.id)}
+              onClick={() => handleTabClick(tab.id)}
             >
               <div className="nav-icon-wrapper">
                 <IconComponent

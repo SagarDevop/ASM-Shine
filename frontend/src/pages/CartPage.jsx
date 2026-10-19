@@ -14,6 +14,7 @@ import {
   Zap,
   Truck
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useCartWishlist } from '../context/CartWishlistContext';
 
 export const CartPage = ({
@@ -21,6 +22,7 @@ export const CartPage = ({
   onSelectProduct,
   onExploreCatalog
 }) => {
+  const navigate = useNavigate();
   const {
     cartData,
     updateCartQuantity,
@@ -28,6 +30,21 @@ export const CartPage = ({
     clearCart,
     showToast
   } = useCartWishlist();
+
+  const handleBack = () => {
+    if (onBack) onBack();
+    else navigate(-1);
+  };
+
+  const handleSelectProduct = (product) => {
+    if (onSelectProduct) onSelectProduct(product);
+    else navigate(`/product/${product.id}`);
+  };
+
+  const handleExplore = () => {
+    if (onExploreCatalog) onExploreCatalog();
+    else navigate('/');
+  };
 
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [couponInput, setCouponInput] = useState('');
@@ -75,7 +92,7 @@ export const CartPage = ({
         <button
           type="button"
           className="page-back-btn"
-          onClick={onBack}
+          onClick={handleBack}
           aria-label="Back"
         >
           <ArrowLeft size={22} />
@@ -119,7 +136,7 @@ export const CartPage = ({
           <button
             type="button"
             className="cart-shop-now-btn"
-            onClick={onExploreCatalog || onBack}
+            onClick={handleExplore}
           >
             Start Shopping
           </button>
@@ -153,7 +170,7 @@ export const CartPage = ({
             className="cart-shop-now-btn"
             onClick={() => {
               setOrderSuccess(false);
-              onExploreCatalog ? onExploreCatalog() : onBack();
+              handleExplore();
             }}
           >
             Continue Shopping
@@ -168,7 +185,7 @@ export const CartPage = ({
                 <div className="cart-item-top-row">
                   <div
                     className="cart-item-img-wrap"
-                    onClick={() => onSelectProduct && onSelectProduct(product)}
+                    onClick={() => handleSelectProduct(product)}
                   >
                     <img src={product.image} alt={product.name} className="cart-item-img" />
                   </div>
@@ -184,7 +201,7 @@ export const CartPage = ({
 
                     <h3
                       className="cart-item-name"
-                      onClick={() => onSelectProduct && onSelectProduct(product)}
+                      onClick={() => handleSelectProduct(product)}
                     >
                       {product.name}
                     </h3>

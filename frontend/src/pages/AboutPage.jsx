@@ -14,10 +14,22 @@ import {
   ExternalLink,
   Share2
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useCartWishlist } from '../context/CartWishlistContext';
 
 export const AboutPage = ({ onBack, onExploreCatalog }) => {
+  const navigate = useNavigate();
   const { showToast } = useCartWishlist();
+
+  const handleBack = () => {
+    if (onBack) onBack();
+    else navigate(-1);
+  };
+
+  const handleExplore = () => {
+    if (onExploreCatalog) onExploreCatalog();
+    else navigate('/');
+  };
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -43,12 +55,12 @@ export const AboutPage = ({ onBack, onExploreCatalog }) => {
         <button
           type="button"
           className="page-back-btn"
-          onClick={onBack}
+          onClick={handleBack}
           aria-label="Back to Home"
         >
           <ArrowLeft size={22} />
         </button>
-        <div className="page-header-title-box" onClick={onBack}>
+        <div className="page-header-title-box" onClick={handleBack}>
           <img src="/images/logo.png" alt="ASM Shine" className="page-mini-logo" />
           <span className="page-header-title">About ASM Shine</span>
         </div>
@@ -219,7 +231,7 @@ export const AboutPage = ({ onBack, onExploreCatalog }) => {
         <button
           type="button"
           className="about-explore-btn"
-          onClick={onExploreCatalog || onBack}
+          onClick={handleExplore}
         >
           <span>Explore All Products</span>
           <ChevronRight size={18} />
